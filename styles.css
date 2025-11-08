@@ -1,0 +1,80 @@
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+    background: #FFCD97;
+    font-family: 'Indie Flower', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.calculator {
+  width: 694px;
+  background: #FFCD97;
+  border-radius: 20px;
+  box-shadow: inset 15px -13px 4px rgba(0,0,0,0.25);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.display {
+    width: 662px;
+    height: 144px;
+    background: #A3A3A3;
+    border-radius: 20px;
+    box-shadow: inset 0 4px 4px rgba(0,0,0,0.25);
+    font-family: 'Amatic SC', cursive;
+    font-size: 128px;
+    color: #252525;
+    text-align: right;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.button {
+  width: 136px;
+  height: 130px;
+  border-radius: 50%;
+  font-family: 'Indie Flower', cursive;
+  font-size: 96px;
+  color: #FF7F7F;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 2px 13px 4px #DDD7BD;
+  margin: 10px;
+  background: #FFF8DD; /* default for numbers */
+  transition: transform 0.1s;
+}
+
+.button.operator {
+    background: #FFA366;
+    box-shadow: 2px 13px 4px #C77C4A;
+}
+
+.button.action {
+    background: #FF8737;
+    color: #FFFFFF;
+    box-shadow: 2px 13px 4px #C7692B;
+}
+
+.button:active {
+    transform: scale(0.95);
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}

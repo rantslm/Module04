@@ -20,51 +20,64 @@ if (value === 'C') { //if the value is C it is the clear button and we want to r
     return;
 }
 //operator buttons 
-if (['+', '-', '*', '/'].includes(value)) { //similar to clear button first line
-    if (firstNum && !operator) { //saves the first number even if I no operator yet
-        operator = value;
-        display.textContent = operator;
-    }
-    return;
- }
-//equals button
-if (value === '=') { // is it the equals button
-    if (firstNum && operator && secondNum) { //avoid NaN by requiring both numbers and an operator
-        let result = 0;
-        
-        switch (operator) {
-        case '+':
-            result = add(firstNum, secondNum);
-            break;
-        case '-':
-            result = subtract(firstNum, secondNum);
-            break;
-        case '*':
-            result = multiply(firstNum, secondNum);
-            break;
-        case '/':
-            result = divide(firstNum, secondNum); 
-            break;
-        }
+if (['+', '-', '*', '/'].includes(value)) {
+  // if a result was just displayed (after =), we’re starting a new step in the chain
+  if (resultDisplayed) resultDisplayed = false; 
 
-        // If divide() returned 'Invalid', show it and reset cleanly
-        if (result === 'Invalid') {
-          display.textContent = 'Invalid';
-          firstNum = '';
-          secondNum = '';
-          operator = '';
-          resultDisplayed = true; // next number press starts fresh
-          return;
-        }
-            //keep result to chain calculations
-            display.textContent = result;
-            firstNum = result.toString();
-            secondNum = '';
-            operator = '';
-            resultDisplayed = true;
-        }
+  /*
+   * Allows you to update the operator if you hit the wrong one. 
+   * ex operator change (5 + → then -)
+   */
+  operator = value;
+  display.textContent = operator;
+  return;
+}
+
+//equals button
+if (value === '=') { 
+    // safeguard: don't calculate unless all parts exist
+    if (!firstNum || !operator || !secondNum) { 
         return;
-    }
+  }
+  
+  let result;
+
+  switch (operator) {
+    case '+':
+      result = add(firstNum, secondNum);
+      break;
+    case '-':
+      result = subtract(firstNum, secondNum);
+      break;
+    case '*':
+      result = multiply(firstNum, secondNum);
+      break;
+    case '/':
+      result = divide(firstNum, secondNum); 
+      break;
+  }
+
+  // Divide-by-zero result
+  if (result === 'Invalid') {
+    display.textContent = 'Invalid';
+    firstNum = '';
+    secondNum = '';
+    operator = '';
+    resultDisplayed = true;
+    return;
+  }
+
+  // Show the result
+  display.textContent = result;
+
+  // Allow chained operations like 5 + 5 = + 2 =
+  firstNum = result.toString();
+  secondNum = '';
+  operator = '';
+  resultDisplayed = true;
+
+  return;
+}
 //number buttons
 if (!isNaN(value)) {
     if (resultDisplayed) {
